@@ -1,6 +1,3 @@
-Here's a sample README file for your Dockerized Banking Application project. You can customize it further as needed:
-
-```markdown
 # Dockerized Banking Application
 
 ## Overview
