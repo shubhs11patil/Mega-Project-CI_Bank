@@ -1,94 +1,77 @@
-## End-to-End Bank Application Deployment using DevSecOps on AWS EKS
-- This is a multi-tier bank an application written in Java (Springboot).
+Here's a sample README file for your Dockerized Banking Application project. You can customize it further as needed:
 
-![Login diagram](images/login.png)
-![Transactions diagram](images/transactions.png)
+```markdown
+# Dockerized Banking Application
 
-### PRE-REQUISITES FOR THIS PROJECT:
-- AWS Account
-- AWS Ubuntu EC2 instance (t2.medium)
-- Install Docker
-- Install docker compose
-#
-### DEPLOYMENT:
-| Deployments    | Paths |
-| -------- | ------- |
-| Deployment using Docker and Networking | <a href="#Docker">Click me </a>     |
-| Deployment using Docker Compose | <a href="#dockercompose">Click me </a>     |
-| Deployment using Jenkins on EKS | <a href="#">Click me </a>     |
-| Deployment using Argocd on EKS| <a href="#">Click me </a>     |
+## Overview
 
-#
-### STEPS TO IMPLEMENT THE PROJECT
-- **<p id="Docker">Deployment using Docker</p>**
-  - Clone the repository
-  ```bash
-  git clone -b DevOps https://github.com/DevMadhup/Springboot-BankApp.git
-  ```
-  #
-  - Install docker, docker compose and provide neccessary permission
-  ```bash
-  sudo apt update -y
+This project demonstrates a Dockerized Banking Application built using Spring Boot and MySQL. It showcases containerization techniques using Docker and Docker Compose to manage services efficiently.
 
-  sudo apt install docker.io docker-compose-v2 -y
+## Table of Contents
 
-  sudo usermod -aG docker $USER && newgrp docker
-  ``` 
-  #
-  - Move to the cloned repository
-  ```bash
-  cd Springboot-BankApp
-  ```
-  #
-  - Build the Dockerfile
-  ```bash
-  docker build -t madhupdevops/springboot-bankapp .
-  ```
-> [!Important]
-> Make sure to change docker build command with your DockerHub username.
-  #
-  - Create a docker network
-  ```bash
-  docker network create bankapp
-  ```
-  #
-  - Run MYSQL container
-  ```bash
-  docker run -itd --name mysql -e MYSQL_ROOT_PASSWORD=Test@123 -e MYSQL_DATABASE=BankDB --network=bankapp mysql
-  ```
-  #
-  - Run Application container
-  ```bash
-  docker run -itd --name BankApp -e SPRING_DATASOURCE_USERNAME="root" -e SPRING_DATASOURCE_URL="jdbc:mysql://mysql:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC" -e SPRING_DATASOURCE_PASSWORD="Test@123" --network=bankapp -p 8080:8080 madhupdevops/springboot-bankapp
-  ```
-  #
-  - Verify deployment
-  ```bash
-  docker ps
-  ```
-  # 
-  - Open port 8080 of your AWS instance and access your application
-  ```bash
-  http://<public-ip>:8080
-  ```
-  ### Congratulations, you have deployed the application using Docker 
-  #
-- **<p id="dockercompose">Deployment using Docker compose</p>**
-- Install docker compose
-```bash
-sudo apt update
-sudo apt install docker-compose-v2 -y
+- [Pre-requisites](#pre-requisites)
+- [Key Features](#key-features)
+- [Deployment Steps](#deployment-steps)
+- [Accessing the Application](#accessing-the-application)
+- [Detailed Guide](#detailed-guide)
+- [Implementation Notes](#implementation-notes)
+- [Acknowledgments](#acknowledgments)
+
+## Pre-requisites
+
+Before you begin, ensure you have the following:
+
+- An **AWS account**
+- A **t2.medium EC2 instance** for better performance
+- **Docker** and **Docker Compose** installed on your EC2 instance
+
+## Key Features
+
+- **Containerization:** Multi-stage Docker builds for improved performance
+- **Service Management:** Simplified deployment using Docker Compose
+- **Persistent Storage:** MySQL database configured with persistent storage
+
+## Deployment Steps
+
+1. **Clone the Repository**
+   ```bash
+   git clone <repository-url>
+   cd <project-directory>
+   ```
+
+2. **Create a Multi-Stage Dockerfile**
+   - A sample Dockerfile is included for building the Spring Boot application.
+
+3. **Docker Compose Setup**
+   - A `docker-compose.yml` file is provided to manage the MySQL and Spring Boot application services.
+
+4. **Run Docker Compose**
+   ```bash
+   docker-compose up -d
+   ```
+
+5. **Stop and Remove Containers (if needed)**
+   ```bash
+   docker-compose down
+   ```
+
+## Accessing the Application
+
+Once the application is running, you can access it via the public IP of your EC2 instance on port 8080:
+
 ```
-#
-- Run docker-compose file present in the root directory of a project
-```bash
-docker compose up -d
+http://<EC2-instance-public-IP>:8080
 ```
-#
-- Access it on port 8080
-```bash
-  http://<public-ip>:8080
-```
-> [!Important]
-> If you face issues with exiting docker container while running docker compose, run ``` docker compose down``` and then ``` docker compose up -d ```.
-#
+
+## Detailed Guide
+
+For a comprehensive walkthrough of the setup and deployment, refer to my blog post: [Deploying Multi-Tier Application with Docker](https://amitabhdevops.hashnode.dev/deploying-multitier-application-with-docker)
+
+## Implementation Notes
+
+For detailed implementation notes with images, visit my Notion page: [Notion Notes](https://www.notion.so/Docker-bankapp-project-12c7311ab980801a929ad23bf654b64d)
+
+## Acknowledgments
+
+Special thanks to **Shubham Londhe** for his incredible support throughout this journey!
+
