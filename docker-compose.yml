@@ -17,28 +17,39 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-pTest@123"]
       interval: 10s                           # Interval between health checks
       timeout: 5s                             # Timeout for health check
-      retries: 3                              # Retry count before marking as unhealthy
-      start_period: 30s                       # Initial delay before health check starts
+      retries: 3                              # Retry count before health check starts
 
   # Spring Boot application service (BankApp)
   bankapp:
-    image: bankapp-mini                      # Specify the image for the BankApp
+    image: bankapp-mini                       # Specify the image for the BankApp
     container_name: bankapp-mini
     environment:
       SPRING_DATASOURCE_USERNAME: root        # Database username
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       SPRING_DATASOURCE_PASSWORD: Test@123    # Database password
-    ports:
-      - "8080:8080"                           # Expose the application on port 8080
+    expose:
+      - "8000"                                # Expose the application internally on port 8000
     depends_on:
       - mysql                                 # Ensure MySQL starts before BankApp
     networks:
-      - bankapp                               # Network for communication with MySQL
+      - bankapp                               # Network for communication with MySQL and Nginx
     restart: always
+
+  # Nginx reverse proxy service
+  nginx:
+    image: nginx:1.23.3-alpine
+    container_name: nginx
+    ports:
+      - "80:80"                               # Expose Nginx on port 80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf  # Nginx configuration
+    depends_on:
+      - bankapp                               # Ensure BankApp starts before Nginx
+    networks:
+      - bankapp                               # Network for communication with BankApp
 
 volumes:
   mysql-bankapp:                              # Volume for persistent MySQL data
 
 networks:
   bankapp:                                    # Network for services communication
-
