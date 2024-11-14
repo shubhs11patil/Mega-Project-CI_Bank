@@ -1,37 +1,31 @@
 #----------------------------------
-# Stage 1
+# Stage 1 - Build Environment
 #----------------------------------
 
-# Import docker image with maven installed
-FROM maven:3.8.3-openjdk-17 as builder 
+# Use Maven with OpenJDK 17 to compile the application
+FROM maven:3.8.3-openjdk-17 AS builder
 
-# Add maintainer, so that new user will understand who had written this Dockerfile
-MAINTAINER Madhup Pandey<madhuppandey2908@gmail.com>
+# Set the working directory in the container
+WORKDIR /app
 
-# Add labels to the image to filter out if we have multiple application running
-LABEL app=bankapp
+# Copy all project files to the working directory
+COPY . /app
 
-# Set working directory
-WORKDIR /src
-
-# Copy source code from local to container
-COPY . /src
-
-# Build application and skip test cases
+# Build the project and skip tests for a faster build process
 RUN mvn clean install -DskipTests=true
 
 #--------------------------------------
-# Stage 2
+# Stage 2 - Production Environment
 #--------------------------------------
 
-# Import small size java image
-FROM openjdk:17-alpine as deployer
+# Use a lightweight OpenJDK 17 image to run the application
+FROM openjdk:17-jdk-alpine
 
-# Copy build from stage 1 (builder)
-COPY --from=builder /src/target/*.jar /src/target/bankapp.jar
+# Copy the application JAR from the builder stage to the target location
+COPY --from=builder /app/target/*.jar /app/target/bankapp.jar
 
-# Expose application port 
-EXPOSE 8080
+# Expose the application port (updated to 8000)
+EXPOSE 8000
 
-# Start the application
-ENTRYPOINT ["java", "-jar", "/src/target/bankapp.jar"]
+# Define the command to run the application
+ENTRYPOINT ["java", "-jar", "/app/target/bankapp.jar"]
