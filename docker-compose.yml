@@ -20,21 +20,20 @@ services:
       retries: 3                              # Retry count before health check starts
 
   # Spring Boot application service (BankApp)
-bankapp:
-  image: bankapp-mini
-  container_name: bankapp-mini
-  environment:
-    SPRING_DATASOURCE_USERNAME: root
-    SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    SPRING_DATASOURCE_PASSWORD: Test@123
-  ports:
-    - "8000:8000"  # Expose port 8000 externally
-  depends_on:
-    - mysql
-  networks:
-    - bankapp
-  restart: always
-
+  bankapp:
+    image: bankapp-mini                       # Specify the image for the BankApp
+    container_name: bankapp-mini
+    environment:
+      SPRING_DATASOURCE_USERNAME: root        # Database username
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_PASSWORD: Test@123    # Database password
+    ports:
+      - "8000:8000"                            # Expose the application externally on port 8000
+    depends_on:
+      - mysql                                 # Ensure MySQL starts before BankApp
+    networks:
+      - bankapp                               # Network for communication with MySQL and Nginx
+    restart: always
 
   # Nginx reverse proxy service
   nginx:
