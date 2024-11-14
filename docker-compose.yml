@@ -40,15 +40,14 @@ services:
       start_period: 30s
   nginx:
     build: ./nginx
-    image: nginx
     container_name: nginx
     ports:
       - "80:80"
     restart: always
     depends_on: 
-      - mainapp
+       - mainapp 
     healthcheck:
-      test: ["CMD","curl","-f","http://mainapp:8080"]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80"]
       interval: 30s
       timeout: 10s
       retries: 10
