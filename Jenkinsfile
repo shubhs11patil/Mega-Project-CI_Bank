@@ -1,25 +1,21 @@
-@Library("shared-library@DevOps") _
-
-pipeline {
-    agent {label 'runner_1'}
-
-    stages {
-        stage('Checkout code') {
-            steps {
-                codeCheckout('DevOps', 'https://github.com/joakim077/Springboot-BankApp.git')
+@Library('Shared')_
+pipeline{
+    agent { label 'dev-server'}
+    
+    stages{
+        stage("Code clone"){
+            steps{
+                sh "whoami"
+            clone("https://github.com/pundir8372/Springboot-BankApp.git" , "DevOps")
             }
         }
-        stage('build') {
-            steps {
-                buildImage("springboot-application")
+        stage("Code Build"){
+            steps{
+            dockerbuild("notes-app","latest")
             }
         }
-        stage('Push Image') {
-            steps {
-                pushImage("springboot-application")
-            }
-        }
-        stage('Deploy'){
+        
+        stage("Deploy"){
             steps{
                 deploy()
             }
@@ -27,4 +23,3 @@ pipeline {
         
     }
 }
-
