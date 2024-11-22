@@ -1,30 +1,35 @@
-@Library("shared-library@DevOps") _
-
-pipeline {
-    agent {label 'runner_1'}
-
-    stages {
-        stage('Checkout code') {
-            steps {
-                codeCheckout('DevOps', 'https://github.com/joakim077/Springboot-BankApp.git')
-            }
-        }
-        stage('build') {
-            steps {
-                buildImage("springboot-application")
-            }
-        }
-        stage('Push Image') {
-            steps {
-                pushImage("springboot-application")
-            }
-        }
-        stage('Deploy'){
+pipeline{
+    agent { label 'agent-slave' }
+    
+    stages{
+        stage("Code Clone"){
             steps{
-                deploy()
+                echo "Code Clone Stage"
+                git url: "https://github.com/nkantamani2023/Springboot-BankApp.git", branch: "DevOps"
             }
         }
-        
+        stage("Code Build & Test"){
+            steps{
+                echo "Code Build Stage"
+                sh "docker build -t bankapp ."
+            }
+        }
+        stage("Push To DockerHub"){
+            steps{
+                withCredentials([usernamePassword(
+                    credentialsId:"dockerhub-creds",
+                    usernameVariable:"dockerHubUser", 
+                    passwordVariable:"dockerHubPass")]){
+                sh 'echo $dockerHubPass | docker login -u $dockerHubUser --password-stdin'
+                sh "docker image tag bankapp:latest ${env.dockerHubUser}/bankapp:latest"
+                sh "docker push ${env.dockerHubUser}/bankapp:latest"
+                }
+            }
+        }
+        stage("Deploy"){
+            steps{
+                sh "docker compose down && docker compose up -d --build"
+            }
+        }
     }
 }
-

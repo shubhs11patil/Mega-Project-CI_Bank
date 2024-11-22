@@ -1,96 +1,141 @@
-## End-to-End Bank Application Deployment using DevSecOps on AWS EKS
-- This is a multi-tier bank an application written in Java (Springboot).
+# 🚀 Multi-Tier Bank Application Deployment  
+This repository contains an **End-to-End Multi-Tier Bank Application** built using **Java (Spring Boot)**. The application is containerized, enabling seamless deployment on AWS EC2 instances using tools like **Docker**, **Docker Compose**, **Jenkins**, and more.  
 
-![Login diagram](images/login.png)
-![Transactions diagram](images/transactions.png)
+---
 
-### PRE-REQUISITES FOR THIS PROJECT:
-- AWS Account
-- AWS Ubuntu EC2 instance (t2.medium)
-- Install Docker
-- Install docker compose
-#
-### DEPLOYMENT:
-| Deployments    | Paths |
-| -------- | ------- |
-| Deployment using Docker and Networking | <a href="#Docker">Click me </a>     |
-| Deployment using Docker Compose | <a href="#dockercompose">Click me </a>     |
-| Deployment using Jenkins on EKS | <a href="#">Click me </a>     |
-| Deployment using Argocd on EKS| <a href="#">Click me </a>     |
+## 📌 Project Highlights  
 
-#
-### STEPS TO IMPLEMENT THE PROJECT
-- **<p id="Docker">Deployment using Docker</p>**
-  - Clone the repository
-  ```bash
-  git clone -b DevOps https://github.com/DevMadhup/Springboot-BankApp.git
-  ```
-  #
-  - Install docker, docker compose and provide neccessary permission
-  ```bash
-  sudo apt update -y
+- **Technology Stack**: Java, Spring Boot, MySQL, Docker, Jenkins, AWS  
+- **Deployment Options**:  
+  - Docker Networking  
+  - Docker Compose  
+  - Jenkins-based CI/CD   
+    
+![App Architecture Diagram](images/login.png)  
+![Transaction Flow Diagram](images/transactions.png)  
 
-  sudo apt install docker.io docker-compose-v2 -y
+---
 
-  sudo usermod -aG docker $USER && newgrp docker
-  ``` 
-  #
-  - Move to the cloned repository
-  ```bash
-  cd Springboot-BankApp
-  ```
-  #
-  - Build the Dockerfile
-  ```bash
-  docker build -t madhupdevops/springboot-bankapp .
-  ```
-> [!Important]
-> Make sure to change docker build command with your DockerHub username.
-  #
-  - Create a docker network
-  ```bash
-  docker network create bankapp
-  ```
-  #
-  - Run MYSQL container
-  ```bash
-  docker run -itd --name mysql -e MYSQL_ROOT_PASSWORD=Test@123 -e MYSQL_DATABASE=BankDB --network=bankapp mysql
-  ```
-  #
-  - Run Application container
-  ```bash
-  docker run -itd --name BankApp -e SPRING_DATASOURCE_USERNAME="root" -e SPRING_DATASOURCE_URL="jdbc:mysql://mysql:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC" -e SPRING_DATASOURCE_PASSWORD="Test@123" --network=bankapp -p 8080:8080 madhupdevops/springboot-bankapp
-  ```
-  #
-  - Verify deployment
-  ```bash
-  docker ps
-  ```
-  # 
-  - Open port 8080 of your AWS instance and access your application
-  ```bash
-  http://<public-ip>:8080
-  ```
-  ### Congratulations, you have deployed the application using Docker 
-  #
-- **<p id="dockercompose">Deployment using Docker compose</p>**
-- Install docker compose
+## 🛠 Pre-requisites  
+
+Ensure you have the following:  
+- **AWS Account**  
+- **Ubuntu EC2 Instance** (Recommended: `t2.medium`)  
+- **Installed Tools**:  
+  - Docker 
+## 🏗 Deployment Steps  
+
+### **<p id="docker-networking">Deployment Using EC2 Instance</p>**  
+
+#### SSH into Your EC2 instance
+
 ```bash
-sudo apt update
-sudo apt install docker-compose-v2 -y
+ssh -i "your pem- key" ubuntu@ec2-44-244-168-242.us-west
 ```
-#
-- Run docker-compose file present in the root directory of a project
-```bash
-docker compose up -d
-```
-#
-- Access it on port 8080
-```bash
-  http://<public-ip>:8080
-```
-> [!Important]
-> If you face issues with exiting docker container while running docker compose, run ``` docker compose down``` and then ``` docker compose up -d ```.
 
+Create a new Directory: 
+```bash
+mkdir dir_name
+```
+Go into `cd dir_name`
 
-#### CICD pipeline [guide](cicd.md)
+#### Clone the Repository  
+```bash  
+git clone -b DevOps https://github.com/nkantamani2023/Springboot-BankApp.git 
+``` 
+```bash
+cd Springboot-BankApp  
+```
+Install Docker
+```bash
+sudo apt update -y
+```
+```bash  
+sudo apt install docker.io && docker-compose-v2 -y
+```
+```bash  
+sudo usermod -aG docker $USER && newgrp docker
+```
+
+Build the Docker Image
+```bash
+docker build -t bankapp .  
+```
+Create Docker Network 
+```bash
+docker network create bankapp
+```    
+Run MySQL Container
+```bash
+docker run -itd --name mysql \  
+  -e MYSQL_ROOT_PASSWORD=Test@123 \  
+  -e MYSQL_DATABASE=BankDB \  
+  --network=bankapp mysql  
+  ```
+Run Application Container
+```bash
+docker run -itd --name BankApp \  
+  -e SPRING_DATASOURCE_USERNAME="root" \  
+  -e SPRING_DATASOURCE_URL="jdbc:mysql://mysql:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC" \  
+  -e SPRING_DATASOURCE_PASSWORD="Test@123" \  
+  --network=bankapp \  
+  -p 8080:8080 bankapp  
+  ```
+Access the Application
+Open Port 8080 of your AWS EC2 instance.
+Navigate to: http://<public-ip>:8080
+🎉 Congratulations! Your application is live.
+
+🌐 Future Enhancements
+CI/CD pipeline with Jenkins (Guide).
+
+ ![App pipeline flow Diagram](images/jenkins-pipeline.png)
+ Step 1: Go to the AWS EC2 instance and copy your master-node public ip address and paste it in the browser address-bar with port `8080` . 
+
+  Step 2: Go to AWS your master-node instaces and select security groups and go to add rule `8080` save this.
+![Jenkins Output](images/jenkins-pipeline-op.png)
+Step 3: Configure your pipeline.
+
+```groovy
+pipeline{
+    agent { label 'agent-slave' }
+    
+    stages{
+        stage("Code Clone"){
+            steps{
+                echo "Code Clone Stage"
+                git url: "https://github.com/nkantamani2023/Springboot-BankApp.git", branch: "DevOps"
+            }
+        }
+        stage("Code Build & Test"){
+            steps{
+                echo "Code Build Stage"
+                sh "docker build -t bankapp ."
+            }
+        }
+        stage("Push To DockerHub"){
+            steps{
+                withCredentials([usernamePassword(
+                    credentialsId:"dockerhub-creds",
+                    usernameVariable:"dockerHubUser", 
+                    passwordVariable:"dockerHubPass")]){
+                sh 'echo $dockerHubPass | docker login -u $dockerHubUser --password-stdin'
+                sh "docker image tag bankapp:latest ${env.dockerHubUser}/bankapp:latest"
+                sh "docker push ${env.dockerHubUser}/bankapp:latest"
+                }
+            }
+        }
+        stage("Deploy"){
+            steps{
+                sh "docker compose down && docker compose up -d --build"
+            }
+        }
+    }
+}
+```
+
+Step 4: Navigate to bank app dashboard and click on `Build Now` button.
+
+Step 5: Your Pipeline has been created
+
+👨‍💻 Author: Kantamani
