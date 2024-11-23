@@ -13,9 +13,6 @@ This pipeline is used to build,test and deploy bank application.
 * Dockerfile for building the project image
 * Jenkinsfile for configuring the Jenkins pipeline
 
-**Pre-requisites**
------------------
-
 * AWS account with EC2 instances (Ubuntu 20.04 or later)
 * Docker installed on the EC2 instances
 * Basic knowledge of Docker, Jenkins, and AWS
@@ -26,19 +23,29 @@ This pipeline is used to build,test and deploy bank application.
 
 ---
 
-## 🛠 Pre-requisites  
-
++## 🛠 Prerequisites
++
++Ensure you have the following:
++* **AWS Account** with EC2 instances (Ubuntu 20.04 or later)
++* **Ubuntu EC2 Instance** (Recommended: `t2.medium`)
++* **Docker** installed on the EC2 instances
++* **Basic knowledge** of Docker, Jenkins, and AWS
 Ensure you have the following:  
-- **AWS Account**  
-- **Ubuntu EC2 Instance** (Recommended: `t2.medium`)  
-- **Installed Tools**:  
+ 
   - Docker 
 ## 🏗 Deployment Steps  
 
 ### **<p id="docker-networking">Deployment Using EC2 Instance</p>**  
 
 #### Step 1: Set up the Master Node (EC2 Instance)
-**Go to AWS your master-node instaces and select security groups and go to add rule `8080` save this.**
+**Go to AWS your master-node instances and select security groups and go to add rule `8080` save this.**
+**Configure EC2 Security Group:**
++1. Navigate to your EC2 instance's security group
++2. Add inbound rule:
++   - Port: 8080
++   - Protocol: TCP
++   - Source: Custom (Recommended: Your IP) or 0.0.0.0/0 (Not recommended for production)
++3. Save the changes
 ```bash
 ssh -i "your pem- key" ubuntu@ec2-44-244-168-242.us-west
 ```
@@ -47,7 +54,8 @@ Install [Docker](https://docs.docker.com/engine/install/ubuntu/), [java](https:/
 sudo apt update -y
 ```
 ```bash  
-sudo apt install docker.io && docker-compose-v2 -y
+sudo apt install docker.io -y
+sudo apt install docker-compose-v2
 ```
 ```bash
 sudo apt update
