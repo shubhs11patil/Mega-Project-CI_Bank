@@ -68,8 +68,8 @@ docker network create bankapp
 Run MySQL Container
 ```bash
 docker run -itd --name mysql \  
-  -e MYSQL_ROOT_PASSWORD=Test@123 \  
-  -e MYSQL_DATABASE=BankDB \  
+-e MYSQL_ROOT_PASSWORD=${DB_PASSWORD} \
+-e MYSQL_DATABASE=${DB_NAME} \  
   --network=bankapp mysql  
   ```
 Run Application Container
@@ -79,6 +79,11 @@ docker run -itd --name BankApp \
   -e SPRING_DATASOURCE_URL="jdbc:mysql://mysql:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC" \  
   -e SPRING_DATASOURCE_PASSWORD="Test@123" \  
   --network=bankapp \  
+  --health-cmd="curl -f http://localhost:8080/actuator/health || exit 1" \
+  --health-interval=30s \
+  --restart=unless-stopped \
+  --memory="512m" \
+  --memory-swap="1g" \
   -p 8080:8080 bankapp  
   ```
 Access the Application
