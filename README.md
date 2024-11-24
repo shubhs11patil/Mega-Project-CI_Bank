@@ -75,9 +75,9 @@ docker run -itd --name mysql \
 Run Application Container
 ```bash
 docker run -itd --name BankApp \  
-  -e SPRING_DATASOURCE_USERNAME="root" \  
+  -e SPRING_DATASOURCE_USERNAME=${DB_USER} \  
   -e SPRING_DATASOURCE_URL="jdbc:mysql://mysql:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC" \  
-  -e SPRING_DATASOURCE_PASSWORD="Test@123" \  
+  -e SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD} \  
   --network=bankapp \  
   --health-cmd="curl -f http://localhost:8080/actuator/health || exit 1" \
   --health-interval=30s \
@@ -115,6 +115,7 @@ pipeline{
         stage("Code Build & Test"){
             steps{
                 echo "Code Build Stage"
+                sh "docker system prune -f"
                 sh "docker build -t bankapp ."
             }
         }
@@ -132,7 +133,17 @@ pipeline{
         }
         stage("Deploy"){
             steps{
-                sh "docker compose down && docker compose up -d --build"
+                script {
+                    try {
+                        sh "docker compose -f docker-compose.yml down"
+                        sh "docker compose -f docker-compose.yml up -d --build"
+                        sh "timeout 300 bash -c 'while ! curl -s http://localhost:8080/actuator/health; do sleep 5; done'"
+                    } catch (Exception e) {
+                        sh "docker compose -f docker-compose.yml down"
+                        sh "docker compose -f docker-compose.yml up -d --build --force-recreate previous-version"
+                        error "Deployment failed: ${e.message}"
+                    }
+                }
             }
         }
     }

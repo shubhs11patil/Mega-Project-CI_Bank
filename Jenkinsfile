@@ -61,7 +61,9 @@ pipeline {
                 done
                 echo "Service failed to become healthy - rolling back"
                 docker compose -p ${COMPOSE_PROJECT_NAME} down
-                exit 1        
+                # Redeploy the previous version
+                docker compose -p ${JOB_NAME}-previous up -d
+                exit 1
                 """
                 }
             }
