@@ -123,7 +123,7 @@ pipeline {
 
 ### Step 9: Establish the Connection between the Master Node and Worker Node
 
-1. Configure the Jenkins master node to connect to the worker node: `sudo tee /etc/jenkins/jenkins.yaml <<EOF`
+1. Configure the Jenkins master node to connect to the worker node: `sudo tee /etc/jenkins/jenkins.yaml
 ```yaml
 jenkins:
   agent:
