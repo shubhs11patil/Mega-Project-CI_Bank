@@ -5,7 +5,6 @@
 # Import docker image with maven installed
 FROM maven:3.8.3-openjdk-17 AS builder 
 
-
 # Set working directory
 WORKDIR /app
 

@@ -1,10 +1,12 @@
-<<<<<<< HEAD
+# 🚀 Bank Application Project 
+The bank application project involves setting up jenkins pipeline on AWS EC2 using docker.
+This pipeline is used to build,test and deploy bank application.
 
+---
 
-**SummaryProject **
-------------------
+![App Architecture Diagram](images/login.png) 
 
-The bank application project involves setting up a Jenkins pipeline on AWS EC2 using Docker.This pipeline is used to build, test, and deploy the bank application.
+---
 
 **Project Features**
 -------------------
@@ -132,43 +134,10 @@ jenkins:
 ```
 2. Restart the Jenkins service on the master node: `sudo systemctl restart jenkins`
 
-That's it! You have now set up a Jenkins pipeline on an AWS EC2 instance using Docker, with a master node and worker node. You can use this pipeline to build, test, and deploy your software project.
-=======
-# 🚀 Bank Application Project 
-The bank application project involves setting up jenkins pipeline on AWS EC2 using docker.
-This pipeline is used to build,test and deploy bank application.
+##### That's it! You have now set up a Jenkins pipeline on an AWS EC2 instance using Docker, with a master node and worker node. You can use this pipeline to build, test, and deploy your software project.
 
 ---
-![App Architecture Diagram](images/login.png) 
----
-**Project Features**
--------------------
-
-* Jenkins pipeline for building, testing, and deploying a software project
-* EC2 instance as a master node and EC2 instance as a worker node
-* Dockerfile for building the project image
-* Jenkinsfile for configuring the Jenkins pipeline
-
-* AWS account with EC2 instances (Ubuntu 20.04 or later)
-* Docker installed on the EC2 instances
-* Basic knowledge of Docker, Jenkins, and AWS
  
-    
- 
-![Transaction Flow Diagram](images/Jenkinsbank1.png)  
-
----
-
-+## 🛠 Prerequisites
-+
-+Ensure you have the following:
-+* **AWS Account** with EC2 instances (Ubuntu 20.04 or later)
-+* **Ubuntu EC2 Instance** (Recommended: `t2.medium`)
-+* **Docker** installed on the EC2 instances
-+* **Basic knowledge** of Docker, Jenkins, and AWS
-Ensure you have the following:  
- 
-  - Docker 
 ## 🏗 Deployment Steps  
 
 ### **<p id="docker-networking">Deployment Using EC2 Instance</p>**  
@@ -215,6 +184,10 @@ sudo usermod -aG jenkins docker
 ```
 Access <Your_Instance_Public_IP>:8080
   * To Access your jenkins server.
+
+---
+
+![Transaction Flow Diagram](images/Jenkinsbank1.png)  
 
 
 🎉 Congratulations! Your Jenkins Server is live.
@@ -297,4 +270,4 @@ Step 5: Your Pipeline has been created
 🎉 Congratulations! Your bankapp is running on workernode port `8080.`
 
 👨‍💻 Author: Sushmitha
->>>>>>> b3090dfdc706a377b549126216e660acf7657546
+
