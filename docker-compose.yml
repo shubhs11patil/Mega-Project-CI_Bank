@@ -19,7 +19,7 @@ services:
 
   mainapp:
     build:
-    context: .
+      context: .
     container_name: Bankapp
     environment:
       - SPRING_DATASOURCE_USERNAME=root
