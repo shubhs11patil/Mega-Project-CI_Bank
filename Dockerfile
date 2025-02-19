@@ -6,10 +6,7 @@
 FROM maven:3.8.3-openjdk-17 as builder 
 
 # Add maintainer, so that new user will understand who had written this Dockerfile
-MAINTAINER Madhup Pandey<madhuppandey2908@gmail.com>
-
-# Add labels to the image to filter out if we have multiple application running
-LABEL app=bankapp
+MAINTAINER Aashish Kumar <devmalik7567@gmail.com>
 
 # Set working directory
 WORKDIR /src
@@ -25,7 +22,7 @@ RUN mvn clean install -DskipTests=true
 #--------------------------------------
 
 # Import small size java image
-FROM openjdk:17-alpine as deployer
+FROM openjdk:17-alpine
 
 # Copy build from stage 1 (builder)
 COPY --from=builder /src/target/*.jar /src/target/bankapp.jar
