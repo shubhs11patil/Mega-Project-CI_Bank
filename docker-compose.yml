@@ -18,8 +18,7 @@ services:
       start_period: 30s
 
   mainapp:
-    Build:
-    context: .
+    image: devopscrusher/bankapp:latest
     environment:
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
