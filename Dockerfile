@@ -8,5 +8,5 @@ RUN mvn clean install -DskipTests=true
 FROM openjdk:17-slim
 WORKDIR /app
 COPY --from=builder /app/target/*.jar /app/target/bank.jar
-EXPOSE 8080
+EXPOSE 8081
 CMD ["java","-jar","/app/target/bank.jar"]
