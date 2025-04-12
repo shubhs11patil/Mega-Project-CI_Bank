@@ -1,5 +1,6 @@
-kind: StatefulSet
+# StatefulSet for MySQL
 apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: mysql-dep
   namespace: bank
@@ -18,16 +19,15 @@ spec:
     spec:
       containers:
       - name: mysql-pod
-        image: mysql:latest
+        image: mysql:8.0.32
         ports:
-          - containerPort: 3306
+        - containerPort: 3306
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
               name: bank-secret
               key: MYSQL_ROOT_PASSWORD
-
         - name: MYSQL_DATABASE
           valueFrom:
             configMapKeyRef:
@@ -36,7 +36,20 @@ spec:
         volumeMounts:
         - name: mysql-data
           mountPath: /var/lib/mysql
-
+        livenessProbe:
+          exec:
+            command:
+            - mysqladmin
+            - ping
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - mysqladmin
+            - ping
+          initialDelaySeconds: 10
+          periodSeconds: 5
   volumeClaimTemplates:
   - metadata:
       name: mysql-data
