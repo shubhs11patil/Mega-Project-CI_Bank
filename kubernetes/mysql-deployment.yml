@@ -59,4 +59,4 @@ spec:
       storageClassName: standard
       resources:
         requests:
-          storage: 15Gi
+          storage: 10Gi
