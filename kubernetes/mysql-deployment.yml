@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: mysql-pod
-        image: mysql:8.0.32
+        image: mysql:latest
         ports:
         - containerPort: 3306
         env:
