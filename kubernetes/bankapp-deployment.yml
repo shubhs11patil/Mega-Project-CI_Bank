@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: bank-pod
-        image: swayamnakshane/bank:latest
+        image: swayamnakshane/bank
         ports:
           - containerPort: 8080
      
