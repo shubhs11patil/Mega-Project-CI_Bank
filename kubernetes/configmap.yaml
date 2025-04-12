@@ -4,6 +4,6 @@ metadata:
   name: bank-configmap
   namespace: bank
 data:
-  MYSQL_DATABASE: BankDB
+  MYSQL_DATABASE: bankappdb
   SPRING_DATASOURCE_USERNAME: root
-  SPRING_DATASOURCE_URL: jdbc:mysql://mysql-svc:3306/BankDB?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+  SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/bankappdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
