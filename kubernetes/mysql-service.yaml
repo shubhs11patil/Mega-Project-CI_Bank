@@ -1,14 +1,15 @@
-apiVersion: v1
 kind: Service
+apiVersion: v1
 metadata:
   name: mysql-svc
-  namespace: bankapp-namespace
+  namespace: bank
   labels:
     app: mysql
 spec:
+  clusterIP: None
   selector:
-    app: mysql
+    app: mysql 
   ports:
-  - protocol: TCP
-    port: 3306
-    targetPort: 3306
+   - protocol: TCP
+     targetPort: 3306
+     port: 3306
