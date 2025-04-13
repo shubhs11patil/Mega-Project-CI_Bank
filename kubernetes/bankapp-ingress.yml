@@ -3,26 +3,29 @@ kind: Ingress
 metadata:
   name: bankapp-ingress
   namespace: bankapp-namespace
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"  # Force HTTPS
-    cert-manager.io/cluster-issuer: letsencrypt-prod  # Use Let's Encrypt
 spec:
-  ingressClassName: nginx
   tls:
   - hosts:
-    - megaproject.trainwithshubham.com
-    secretName: bankapp-tls-secret  # Cert-Manager will manage this
+    - megaproject.sandeeppokhrel.cloud
+    secretName: bankapp-tls-secret
+  ingressClassName: nginx
   rules:
-  - host: megaproject.trainwithshubham.com
+  - host: megaproject.sandeeppokhrel.cloud
     http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
+       paths:
+       - path: /
+         pathType: Prefix
+         backend:
           service:
             name: bankapp-service
             port:
+              number: 8080
+       - path: /nginx
+         pathType: Prefix
+         backend:
+           service:
+             name: nginx-service
+             port:
+               number: 80
               number: 8080
 
