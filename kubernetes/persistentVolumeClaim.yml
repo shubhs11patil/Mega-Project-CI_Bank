@@ -1,16 +1,12 @@
-kind: PersistentVolume
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: bank-pv
+  name: bank-pvc
   namespace: bank
 spec:
-  capacity:
-    storage: 5Gi
+  resources:
+    requests:
+      storage: 10Gi
   accessModes:
     - ReadWriteOnce
   storageClassName: standard
-  hostPath:
-    path: "/mnt/data"
-
-
-

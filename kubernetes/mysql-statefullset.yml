@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql-statefullset
+  namespace: bank
+  labels:
+    app: sqlapp
+spec:
+  serviceName: mysql
+  selector:
+    matchLabels:
+      app: sqlapp
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: sqlapp
+    spec:
+      containers:
+      - name: sql-pod
+        image: mysql:latest
+        ports:
+        - containerPort: 3306
+        environment:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bank-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name:  MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: bank-config
+              key:  MYSQL_DATABASE
+            
+        volumeMounts:
+        - name: mysql
+          mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql
+    spec:
+      accessModes:
+       - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+

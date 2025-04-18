@@ -1,12 +1,14 @@
+# StatefulSet for MySQL
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: mysql
-  namespace: bankapp-namespace
+  name: mysql-dep
+  namespace: bank
   labels:
     app: mysql
 spec:
-  replicas: 1
+  serviceName: mysql
+  replicas: 2
   selector:
     matchLabels:
       app: mysql
@@ -16,27 +18,45 @@ spec:
         app: mysql
     spec:
       containers:
-      - name: mysql
-        image: mysql:8.0  # Use a specific, stable version for production
+      - name: mysql-pod
+        image: mysql:latest
         ports:
         - containerPort: 3306
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
+              name: bank-secret
               key: MYSQL_ROOT_PASSWORD
         - name: MYSQL_DATABASE
           valueFrom:
             configMapKeyRef:
-              name: bankapp-config
+              name: bank-configmap
               key: MYSQL_DATABASE
         volumeMounts:
-        - name: mysql-pv-storage
+        - name: mysql-data
           mountPath: /var/lib/mysql
-          subPath: mysql-data  # Optional: Ensure a subdirectory is used for better volume organization
-      volumes:
-      - name: mysql-pv-storage
-        persistentVolumeClaim:
-          claimName: mysql-pvc
-
+        livenessProbe:
+          exec:
+            command:
+            - mysqladmin
+            - ping
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - mysqladmin
+            - ping
+          initialDelaySeconds: 10
+          periodSeconds: 5
+  volumeClaimTemplates:
+  - metadata:
+      name: mysql-data
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      storageClassName: standard
+      resources:
+        requests:
+          storage: 5Gi
