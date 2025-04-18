@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: bankapp-deploy
-  name: bankapp-deploy
+    app: bankapp-deployment
+  name: bankapp-deployment
   namespace: bankapp-namespace
 spec:
   replicas: 2  # Keep replicas >= 2 for high availability
   selector:
     matchLabels:
-      app: bankapp-deploy
+      app: bankapp-deployment
   template:
     metadata:
       labels:
-        app: bankapp-deploy
+        app: bankapp-deployment
     spec:
       containers:
       - name: bankapp
-        image: trainwithshubham/bankapp-eks:v2
+        image: kubebibek/bankapp-eks:v1
         ports:
         - containerPort: 8080
         env:
