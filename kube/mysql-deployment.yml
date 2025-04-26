@@ -5,6 +5,8 @@ metadata:
   namespace: bank
   labels:
     app: bankapp
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true
 spec:
   serviceName: mysql
   replicas: 2
