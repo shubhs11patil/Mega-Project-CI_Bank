@@ -5,6 +5,8 @@ metadata:
   namespace: bank
   labels:
     app: bankapp
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true
 spec:
   serviceName: mysql
   replicas: 2
@@ -36,15 +38,7 @@ spec:
         - name: mysql
           mountPath: /var/lib/mysql
 
-  volumeClaimTemplates:
-  - metadata:
-      name: mysql
-      labels:
-        app: bankapp
-    spec:
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 5Gi
-
+    volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
