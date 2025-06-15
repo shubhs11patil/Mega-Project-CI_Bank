@@ -198,17 +198,6 @@ sudo apt-get install trivy -y
 - <b>Now, we need to generate an application password from our gmail account to authenticate with jenkins</b>
   - <b>Open gmail and go to <mark>Manage your Google Account --> Security</mark></b>
 > [!Important]
-> Make sure 2 step verification must be on
-
-  ![image](https://github.com/user-attachments/assets/5ab9dc9d-dcce-4f9d-9908-01095f1253cb)
-
-  - <b>Search for <mark>App password</mark> and create a app password for jenkins</b>
-  ![image](https://github.com/user-attachments/assets/701752da-7703-4685-8f06-fe1f65dd1b9c)
-  ![image](https://github.com/user-attachments/assets/adc8d8c0-8be4-4319-9042-4115abb5c6fc)
-  
-#
-- <b> Once, app password is create and go back to jenkins <mark>Manage Jenkins --> Credentials</mark> to add username and password for email notification</b>
-![image](https://github.com/user-attachments/assets/2a42ec62-87c8-43c8-a034-7be0beb8824e)
 
 # 
 - <b> Go back to <mark>Manage Jenkins --> System</mark> and search for <mark>Extended E-mail Notification</mark></b>
@@ -341,34 +330,7 @@ chmod 777 /var/run/docker.sock
 - <b>Open port 30080 on worker node and Access it on browser</b>
 ```bash
 <worker-public-ip>:30080
-```
-- <b>Email Notification</b>
-![image](https://github.com/user-attachments/assets/407f94ed-bf67-441a-bd28-881b6b8739b2)
 
-#
-## How to monitor EKS cluster, kubernetes components and workloads using prometheus and grafana via HELM (On Master machine)
-- <p id="Monitor">Install Helm Chart</p>
-```bash
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-```
-```bash
-chmod 700 get_helm.sh
-```
-```bash
-./get_helm.sh
-```
-
-#
--  Add Helm Stable Charts for Your Local Client
-```bash
-helm repo add stable https://charts.helm.sh/stable
-```
-
-#
-- Add Prometheus Helm Repository
-```bash
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-```
 
 #
 - Create Prometheus Namespace
