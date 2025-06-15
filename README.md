@@ -1,3 +1,12 @@
+👨‍💻 Author
+Suhel Khan
+📍 Uttar Pradesh (Lucknow)
+📧 workwithsuhel@gmail.com
+📞 +91 8931004042
+🌐 Portfolio
+🔗 LinkedIn
+💻 GitHub
+
 ## End-to-End Bank Application Deployment using DevSecOps on AWS EKS
 - This is a multi-tier bank an application written in Java (Springboot).
 
