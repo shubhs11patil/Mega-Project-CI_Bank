@@ -1,7 +1,7 @@
 def call(String branch, String url, String credId) {
     // Validate branch name format
     if (!branch.matches('^[\\w.-]+$')) {
-        error("Invalid branch name format")
+        error("Invalid branch name format with branch")
     }
     
     // Validate URL format
