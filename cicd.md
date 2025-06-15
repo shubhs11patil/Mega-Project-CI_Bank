@@ -4,7 +4,7 @@
 - Pull image from docker hub and deploy application using docker compose .
 
     ![Login diagram](images/flow.png)
-#### Creating CICD pipeline 
+#### Creating CICD pipeline with jenkins
 
  1. #### Install Jenkins and access on port 8080
     ```bash 
