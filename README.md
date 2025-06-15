@@ -200,16 +200,6 @@ sudo apt-get install trivy -y
 > [!Important]
 
 # 
-- <b> Go back to <mark>Manage Jenkins --> System</mark> and search for <mark>Extended E-mail Notification</mark></b>
-![image](https://github.com/user-attachments/assets/bac81e24-bb07-4659-a251-955966feded8)
-#
-- <b>Scroll down and search for <mark>E-mail Notification</mark> and setup email notification</b>
-> [!Important]
-> Enter your gmail password which we copied recently in password field <mark>E-mail Notification --> Advance</mark>
-
-![image](https://github.com/user-attachments/assets/14e254fc-1400-457e-b3f4-046404b66950)
-![image](https://github.com/user-attachments/assets/7be70b3a-b0dc-415c-838a-b1c6fd87c182)
-![image](https://github.com/user-attachments/assets/cffb6e1d-4838-483e-97e0-6851c204ab21)
 
 #
 - <b>Go to Jenkins and click on <mark> Manage Jenkins --> Plugins --> Available plugins</mark> install the below plugins:</b>
