@@ -29,7 +29,7 @@ public class Account implements UserDetails {
     }
 
     public Account(String username, String password, BigDecimal balance, List<Transaction> transactions, Collection<? extends GrantedAuthority> authorities) {
-        this.username = username;
+        this.username = Username;
         this.password = password;
         this.balance = balance;
         this.transactions = transactions;

@@ -1,3 +1,12 @@
+👨‍💻 Author
+Suhel Khan
+📍 Uttar Pradesh (Lucknow)
+📧 workwithsuhel@gmail.com
+📞 +91 8931004042
+🌐 Portfolio
+🔗 LinkedIn
+💻 GitHub
+
 ## End-to-End Bank Application Deployment using DevSecOps on AWS EKS
 - This is a multi-tier bank an application written in Java (Springboot).
 
@@ -175,9 +184,7 @@ sudo apt-get install trivy -y
   ```bash
   <public-ip-worker>:<port>
   ```
-  ![image](https://github.com/user-attachments/assets/29d9cdbd-5b7c-44b3-bb9b-1d091d042ce3)
-  ![image](https://github.com/user-attachments/assets/08f4e047-e21c-4241-ba68-f9b719a4a39a)
-  ![image](https://github.com/user-attachments/assets/1ffa85c3-9055-49b4-aab0-0947b95f0dd2)
+
   - <b>Fetch the initial password of argocd server</b>
   ```bash
   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
@@ -191,29 +198,8 @@ sudo apt-get install trivy -y
 - <b>Now, we need to generate an application password from our gmail account to authenticate with jenkins</b>
   - <b>Open gmail and go to <mark>Manage your Google Account --> Security</mark></b>
 > [!Important]
-> Make sure 2 step verification must be on
-
-  ![image](https://github.com/user-attachments/assets/5ab9dc9d-dcce-4f9d-9908-01095f1253cb)
-
-  - <b>Search for <mark>App password</mark> and create a app password for jenkins</b>
-  ![image](https://github.com/user-attachments/assets/701752da-7703-4685-8f06-fe1f65dd1b9c)
-  ![image](https://github.com/user-attachments/assets/adc8d8c0-8be4-4319-9042-4115abb5c6fc)
-  
-#
-- <b> Once, app password is create and go back to jenkins <mark>Manage Jenkins --> Credentials</mark> to add username and password for email notification</b>
-![image](https://github.com/user-attachments/assets/2a42ec62-87c8-43c8-a034-7be0beb8824e)
 
 # 
-- <b> Go back to <mark>Manage Jenkins --> System</mark> and search for <mark>Extended E-mail Notification</mark></b>
-![image](https://github.com/user-attachments/assets/bac81e24-bb07-4659-a251-955966feded8)
-#
-- <b>Scroll down and search for <mark>E-mail Notification</mark> and setup email notification</b>
-> [!Important]
-> Enter your gmail password which we copied recently in password field <mark>E-mail Notification --> Advance</mark>
-
-![image](https://github.com/user-attachments/assets/14e254fc-1400-457e-b3f4-046404b66950)
-![image](https://github.com/user-attachments/assets/7be70b3a-b0dc-415c-838a-b1c6fd87c182)
-![image](https://github.com/user-attachments/assets/cffb6e1d-4838-483e-97e0-6851c204ab21)
 
 #
 - <b>Go to Jenkins and click on <mark> Manage Jenkins --> Plugins --> Available plugins</mark> install the below plugins:</b>
@@ -334,34 +320,7 @@ chmod 777 /var/run/docker.sock
 - <b>Open port 30080 on worker node and Access it on browser</b>
 ```bash
 <worker-public-ip>:30080
-```
-- <b>Email Notification</b>
-![image](https://github.com/user-attachments/assets/407f94ed-bf67-441a-bd28-881b6b8739b2)
 
-#
-## How to monitor EKS cluster, kubernetes components and workloads using prometheus and grafana via HELM (On Master machine)
-- <p id="Monitor">Install Helm Chart</p>
-```bash
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-```
-```bash
-chmod 700 get_helm.sh
-```
-```bash
-./get_helm.sh
-```
-
-#
--  Add Helm Stable Charts for Your Local Client
-```bash
-helm repo add stable https://charts.helm.sh/stable
-```
-
-#
-- Add Prometheus Helm Repository
-```bash
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-```
 
 #
 - Create Prometheus Namespace

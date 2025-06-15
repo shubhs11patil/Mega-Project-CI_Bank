@@ -19,7 +19,7 @@
     sudo systemctl enable nginx
     ```
 
-- Create a new Nginx server block configuration file for our bank-app application
+- Create a new Nginx server block configuration file for our bank-app system
     ```bash
     sudo touch /etc/nginx/sites-available/bank-app
     ```

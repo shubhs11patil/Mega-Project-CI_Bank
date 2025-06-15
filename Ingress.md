@@ -16,7 +16,7 @@ This will create all the necessary resources for the NGINX Ingress Controller, i
 ---
 
 2) Verify Ingress Controller Installation
-  - After applying the YAML file, verify that the NGINX Ingress Controller is installed and running.
+  - After applying the YAML file, verify that the nginx Ingress Controller is installed and running.
   ```bash
   kubectl get pods -n ingress-nginx
   ```

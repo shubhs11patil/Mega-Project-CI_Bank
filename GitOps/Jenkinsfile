@@ -3,7 +3,7 @@ pipeline {
     agent any
     
     parameters {
-        string(name: 'DOCKER_TAG', defaultValue: '', description: 'Docker tag of the image built by the CI job')
+        string(name: 'DOCKER_TAG', defaultValue: '', description: 'Docker tag of the image built by the CI1 and CI2 job')
     }
 
     stages {
