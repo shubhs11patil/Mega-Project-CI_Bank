@@ -1,13 +1,24 @@
 package com.example.bankapp;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import com.example.bankapp.service.AccountService;
 
-@SpringBootApplication
-public class BankappApplication {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@TestPropertySource(properties = {
+  "spring.autoconfigure.exclude=org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration",
+  "spring.jpa.hibernate.ddl-auto=none",
+  "spring.sql.init.mode=never",
+  "spring.main.web-application-type=none"
+})
+class BankappApplicationTests {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BankappApplication.class, args);
-	}
+  // Satisfies securityConfig’s dependency so Spring DOES NOT create the real AccountService
+  @MockBean
+  private AccountService accountService;
 
+  @Test
+  void contextLoads() {}
 }
