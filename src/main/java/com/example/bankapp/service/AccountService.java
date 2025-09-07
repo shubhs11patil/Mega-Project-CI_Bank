@@ -30,7 +30,7 @@ public class AccountService implements UserDetailsService {
 
     @Autowired
     private TransactionRepository transactionRepository;
-    @org.springframework.boot.test.mock.mockito.MockBean private com.example.bankapp.service.AccountService accountService;
+    
 
 
     public Account findAccountByUsername(String username) {
